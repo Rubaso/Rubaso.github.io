@@ -1,3 +1,6 @@
 title: Cosas de cosas
 description: Mi página para hacer pruebas.
-theme: minima
+remote_theme: "pages-themes/minimal"
+theme: "pages-themes/minimal"
+plugins:
+  - jekyll-remote-theme

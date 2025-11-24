@@ -32,9 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let totalRotation = 0; // acumulado absoluto en grados (siempre creciente)
   let spinning = false;
 
-  // pointer rotation offset (deg). CSS rota la flecha 180º.
-  const POINTER_ROTATION_DEG = 180;
-
   // HiDPI scaling
   function scaleCanvasForHiDPI() {
     const ratio = window.devicePixelRatio || 1;
@@ -136,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateJSON(){
-    jsonData.textContent = JSON.stringify(segments, null, 2);
+    if (jsonData) jsonData.textContent = JSON.stringify(segments, null, 2);
   }
 
   function escapeHtml(str){
@@ -164,20 +161,19 @@ document.addEventListener('DOMContentLoaded', () => {
     drawWheel();
     populateSegmentList();
     updateJSON();
-    resultText.textContent = '—';
+    if (resultText) resultText.textContent = '—';
   }
 
   // devuelve el índice actual que está apuntando al puntero (según totalRotation)
+  // Nota: simplificamos los offsets y usamos la forma consistente basada en la
+  // manera en que la rueda se dibuja (startAngle = -90º).
   function currentLandedIndex(rotationDeg = totalRotation){
     const n = Math.max(1, segments.length);
     const segmentAngle = 360 / n;
-    const R = rotationDeg; // absolute clockwise degrees
-    // punto del wheel original que apunta hacia arriba en pantalla
-    const angle = (360 - (R % 360) + 360) % 360;
-    // compensamos startAngle (-90) y la rotación del puntero (POINTER_ROTATION_DEG)
-    const relative = (angle + 90 + POINTER_ROTATION_DEG) % 360;
-    let idx = Math.floor(relative / segmentAngle);
-    idx = idx % n;
+    // normalizamos la rotación y calculamos directamente el índice
+    const r = ((360 - (rotationDeg % 360)) % 360); // ángulo desde el inicio en sentido horario
+    let idx = Math.floor(r / segmentAngle);
+    idx = ((idx % n) + n) % n;
     return idx;
   }
 
@@ -207,7 +203,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalRotation = totalRotation + extraTurns*360 + R_target_base + randomOffset;
     const duration = 3.8 + extraTurns*0.22; // segundos
 
+    // aseguramos que el elemento rotor exista
+    if (!rotor) {
+      console.warn('Elemento .wheel-rotor no encontrado: la animación no funcionará correctamente.');
+      // fallback: actualizar resultado sin animación
+      totalRotation = finalRotation;
+      const landed = currentLandedIndex(totalRotation);
+      const result = segments[landed];
+      if (resultText) resultText.textContent = result ? String(result.label).trim() : "—";
+      spinning = false;
+      spinBtn.disabled = false;
+      return;
+    }
+
     rotor.style.transition = `transform ${duration}s cubic-bezier(.02,.75,.28,1)`;
+    // forzar repaint/raf para asegurar transición
     requestAnimationFrame(() => {
       rotor.style.transform = `rotate(${finalRotation}deg)`;
     });
@@ -217,7 +227,12 @@ document.addEventListener('DOMContentLoaded', () => {
       totalRotation = finalRotation;
       const landed = currentLandedIndex(totalRotation);
       const result = segments[landed];
-      resultText.textContent = result ? result.label : "—";
+      if (resultText) {
+        const label = result && result.label ? String(result.label).trim() : '';
+        resultText.textContent = label || '—';
+      } else {
+        console.warn('Elemento #resultText no encontrado para mostrar el resultado.');
+      }
       spinning = false;
       spinBtn.disabled = false;
     };
@@ -240,14 +255,16 @@ document.addEventListener('DOMContentLoaded', () => {
   quickReset.addEventListener('click', () => {
     if (spinning) return;
     totalRotation = 0;
-    rotor.style.transition = 'transform 600ms ease';
-    rotor.style.transform = 'rotate(0deg)';
+    if (rotor) {
+      rotor.style.transition = 'transform 600ms ease';
+      rotor.style.transform = 'rotate(0deg)';
+    }
     segments = JSON.parse(JSON.stringify(DEFAULT_SEGMENTS));
     saveSegments();
     drawWheel();
     populateSegmentList();
     updateJSON();
-    resultText.textContent = '—';
+    if (resultText) resultText.textContent = '—';
   });
 
   spinBtn.addEventListener('click', spin);
