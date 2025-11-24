@@ -1,0 +1,63 @@
+/* CSS para hacer las cards más pequeñas */
+.card-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  align-items: start;
+}
+
+.card, .post-card, .card-grid .card {
+  width: 100%;
+  max-width: 110px;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 6px 12px rgba(2,6,23,0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card img, .card .card-media, .post-card img {
+  width: 100%;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin: 0;
+}
+
+.card .card-title, .card h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card .card-desc, .card p {
+  font-size: 0.72rem;
+  color: #475569;
+  margin: 0;
+  line-height: 1.1;
+  height: 36px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* focus / hover para que se noten como "botones" */
+.card:focus, .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(2,6,23,0.12);
+  outline: none;
+}
+
+/* móvil: aún más compactas */
+@media (max-width: 480px) {
+  .card, .post-card, .card-grid .card { max-width: 96px; font-size: 0.76rem; }
+  .card img, .post-card img { height: 56px; }
+}
