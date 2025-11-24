@@ -1,12 +1,10 @@
 ---
 layout: home
-title: Mis cosas útiles
+title: YIIIIIIII
 ---
 
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/css/card-smal.css">
-
-# Útils
 
 <div class="card-grid">
   <a class="card" href="/ruleta/" aria-label="Abrir ruleta">
@@ -14,12 +12,12 @@ title: Mis cosas útiles
     <p>Girando</p>
   </a>
 
-  <a class="card" href="/notes.html" aria-label="Abrir notas rápidas">
+  <a class="card" href="/TinderPelis/" aria-label="Abrir tinder de pelis">
     <h2>Notas rápidas</h2>
     <p>Para apuntar ideas</p>
   </a>
 
-  <a class="card" href="/tools.html" aria-label="Ver recursos útiles">
+  <a class="card" href="/tools/" aria-label="Ver recursos útiles">
     <h2>Recursos útiles</h2>
     <p>Links, herramientas, y referencias de programación.</p>
   </a>

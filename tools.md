@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Recursos y herramientas
+permalink: /tools/
 ---
 
 # Herramientas
