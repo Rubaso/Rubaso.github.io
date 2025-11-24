@@ -1,0 +1,224 @@
+:root{
+  --wheel-size: 420px;
+  --pointer-size: 36px;
+  --button-bg: #2b6cb0;
+  --button-color: #fff;
+  --result-bg: #f7fafc;
+  --shadow: 0 6px 18px rgba(15,23,42,0.18);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #0f172a;
+}
+
+.page {
+  max-width: 960px;
+  margin: 28px auto;
+  padding: 18px;
+}
+
+h1 { margin: 0 0 12px; font-size: 1.6rem; }
+p.lead { margin: 0 0 18px; color: #334155; }
+
+.ruleta-wrapper {
+  display: flex;
+  gap: 28px;
+  align-items: start;
+  flex-wrap: wrap;
+}
+
+.wheel-area {
+  width: var(--wheel-size);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.wheel {
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  border-radius: 50%;
+  overflow: visible;
+  box-shadow: var(--shadow);
+  background: white;
+  position: relative;
+  display: block;
+}
+
+.wheel-rotor {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  transition: transform 5s cubic-bezier(.05,.9,.1,1);
+  will-change: transform;
+  display: block;
+}
+
+/* Pointer: misma posición, rotada 180º, ahora siempre encima y no capta eventos */
+.pointer {
+  position: absolute;
+  top: calc(50% - var(--wheel-size)/2 - 10px);
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+  width: 0;
+  height: 0;
+  border-left: calc(var(--pointer-size)/2) solid transparent;
+  border-right: calc(var(--pointer-size)/2) solid transparent;
+  border-bottom: var(--pointer-size) solid #ef4444;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+  z-index: 999;          /* importante: encima de la rueda */
+  pointer-events: none;  /* para no bloquear clicks en la ruleta */
+}
+
+.center-knob {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg,#fff,#e6e9ef);
+  box-shadow: 0 6px 14px rgba(2,6,23,0.25);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #0f172a;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+}
+
+.controls {
+  flex: 1 1 320px;
+  min-width: 260px;
+  max-width: 480px;
+  background: var(--result-bg);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.controls h2 { margin: 0 0 8px; }
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.controls .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--button-bg);
+  color: var(--button-color);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.controls .btn.alt { background:#6b7280; }
+.controls .btn.success { background:#059669; }
+
+.controls .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.result {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: white;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+}
+
+.result-text {
+  margin-left: 8px;
+  color: #0f172a;
+}
+
+.options-title { margin-top: 14px; }
+
+.segment-list {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.segment-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  flex:0 0 28px;
+  box-shadow: inset 0 -6px 10px rgba(0,0,0,0.06);
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+}
+
+.add-row {
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+  align-items:center;
+}
+
+.add-row input[type="color"] {
+  width:56px;
+  padding:0;
+  height:40px;
+  border-radius:8px;
+  border:1px solid #e2e8f0;
+}
+
+.small {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+footer.note {
+  margin-top: 18px;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.json-details { margin-top:12px; }
+
+.json-pre {
+  white-space: pre-wrap;
+  background:#0f172a;
+  color:#fff;
+  padding:8px;
+  border-radius:6px;
+  margin-top:6px;
+  font-size:0.85rem;
+}
+
+@media (max-width:880px) {
+  .ruleta-wrapper { justify-content: center; }
+  .add-row { flex-direction: column; align-items: stretch; }
+  .add-row input[type="color"] { width:100%; height:40px; }
+}

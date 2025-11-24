@@ -1,0 +1,72 @@
+---
+layout: page
+title: "Ruleta"
+permalink: /ruleta/
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ruleta - {{ site.title }}</title>
+  <link rel="stylesheet" href="/assets/css/ruleta.css">
+</head>
+<body>
+  <div class="page">
+    <h1>Ruleta interactiva</h1>
+    <p class="lead">Haz clic en "Girar" o en el botón central. Las opciones se gestionan completamente desde esta página.</p>
+
+    <div class="ruleta-wrapper">
+      <div class="wheel-area" aria-hidden="false">
+        <div class="pointer" aria-hidden="true"></div>
+        <div class="wheel" role="img" aria-label="Ruleta de opciones">
+          <canvas class="wheel-rotor" id="wheelCanvas" width="420" height="420" aria-hidden="true"></canvas>
+          <div id="centerKnob" class="center-knob" role="button" tabindex="0" aria-label="Girar ruleta">GIRAR</div>
+        </div>
+      </div>
+
+      <aside class="controls" aria-labelledby="controls-title">
+        <h2 id="controls-title">Controles</h2>
+
+        <div class="button-row">
+          <button id="spinBtn" class="btn" title="Girar la ruleta">Girar</button>
+          <button id="quickReset" class="btn alt" title="Reiniciar">Reiniciar</button>
+        </div>
+
+        <div class="result" id="resultBox" aria-live="polite">
+          Resultado:
+          <span id="resultText" class="result-text">—</span>
+        </div>
+
+        <h3 class="options-title">Opciones</h3>
+        <p class="small">Añade, edita o elimina opciones. Cada opción necesita un nombre y un color.</p>
+
+        <div id="segments" class="segment-list" aria-hidden="false"></div>
+
+        <div class="add-row">
+          <input id="newLabel" type="text" placeholder="Nombre (ej: Premio 1)" aria-label="Nuevo nombre" />
+          <input id="newColor" type="color" value="#f97316" aria-label="Color" />
+          <button id="addBtn" class="btn success">Añadir</button>
+        </div>
+
+        <div class="meta-row" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="clearLocalBtn" class="btn alt">Borrar local</button>
+        </div>
+
+        <footer class="note">
+          Nota: las opciones se guardan automáticamente en localStorage. Añade y edita las opciones desde la interfaz.
+        </footer>
+
+        <details class="json-details">
+          <summary class="small">JSON actual de opciones</summary>
+          <pre id="jsonData" class="json-pre"></pre>
+        </details>
+      </aside>
+    </div>
+  </div>
+
+  <noscript>Esta página necesita JavaScript para funcionar correctamente.</noscript>
+  <script src="/assets/js/ruleta.js" defer></script>
+</body>
+</html>
