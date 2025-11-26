@@ -1,0 +1,262 @@
+body {
+  margin: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #f7f7fb;
+  color: #2c2a2b;
+}
+
+.container {
+  max-width: 470px;
+  margin: 34px auto;
+  padding: 28px 16px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.6em;
+  margin-bottom: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.filter-panel label {
+  font-size: 1em;
+  color: #446;
+}
+
+#genre-select, #year-from, #year-to {
+  border-radius: 10px;
+  padding: 0.23em 0.7em;
+  background: #ece9f8;
+  border: 1px solid #e0e0e0;
+  font-size: 1em;
+}
+
+.btn.apply {
+  background: #aee1f3;
+  color: #384a5a;
+  border-radius: 12px;
+}
+
+.card {
+  min-height: 330px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#movie-poster {
+  max-width: 210px;
+  max-height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 10px;
+  background: #eaeaea;
+}
+
+.movie-title {
+  font-size: 1.15em;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #334;
+}
+
+.movie-overview {
+  font-size: 0.98em;
+  color: #656575;
+  margin-bottom: 8px;
+  min-height: 54px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.btn {
+  border: none;
+  padding: 0.65em 1.3em;
+  font-size: 1em;
+  font-weight: 500;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.16s, background 0.18s;
+  box-shadow: 0 1px 6px rgba(110, 110, 160, 0.07);
+}
+
+.btn.yes {
+  background: #bbe0c2;
+  color: #265d4a;
+}
+
+.btn.no {
+  background: #f7cbc8;
+  color: #88454b;
+}
+
+.btn.matches {
+  background: #b7d4f3;
+  color: #37557a;
+}
+
+.btn.history {
+  background: #eedfd7;
+  color: #765f44;
+}
+
+.btn.clear {
+  background: #f4dbf0;
+  color: #854a85;
+}
+
+.btn.stats {
+  background: #f9ecbb;
+  color: #836c2a;
+}
+
+.btn:active {
+  opacity: 0.83;
+}
+
+.nav-panel {
+  display: flex;
+  gap: 13px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.matches-list, .history-list {
+  margin-top: 14px;
+  text-align: left;
+}
+
+.match-item, .history-item, .sim-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid #efedef;
+}
+
+.match-item img, .history-item img, .sim-item img {
+  width: 48px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 7px;
+  margin-right: 12px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+  background: #ececec;
+}
+
+.match-title, .history-title, .sim-title {
+  font-size: 1.05em;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 5px;
+}
+
+.match-notes, .history-notes {
+  font-size: 0.97em;
+  margin-top: 4px;
+  margin-bottom: 2px;
+  color: #4a4466;
+  background: #f2f3fa;
+  border-radius: 7px;
+  padding: 5px 9px;
+  width: 96%;
+}
+
+.history-status {
+  margin-left: auto;
+  margin-right: 14px;
+  padding: 2px 12px;
+  border-radius: 10px;
+  font-size: 0.99em;
+  font-weight: 400;
+  border: 1px solid #e4e4e4;
+  background: #f9f9f9;
+  color: #2c2a2b;
+}
+
+.status-yes {
+  background: #cceedd;
+  color: #236B4F;
+  border-color: #b6dfc2;
+}
+
+.status-no {
+  background: #f9e0de;
+  color: #ad5a64;
+  border-color: #edcab5;
+}
+
+.edit-nota-btn, .save-nota-btn, .recommend-btn, .add-sim-btn {
+  padding: 3px 10px;
+  border: none;
+  border-radius: 10px;
+  margin-right: 5px;
+  font-size: 0.93em;
+  cursor: pointer;
+  background: #eaecef;
+  color: #444;
+  margin-left: 5px;
+}
+.edit-nota-btn:active, .save-nota-btn:active, .recommend-btn:active, .add-sim-btn:active {
+  background: #dde3e3;
+}
+
+.stats-panel {
+  background: #f9f6ea;
+  margin: 18px 0;
+  border-radius: 16px;
+  padding: 14px 12px;
+}
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.stats-table th, .stats-table td {
+  padding: 7px 4px;
+  text-align: center;
+  border-bottom: 1px solid #e2e2e2;
+}
+.stats-table th {
+  color: #47331c;
+  font-weight: 700;
+  background: #fcf0d0;
+}
+.stats-table td {
+  font-size: 1em;
+}
+
+@media (max-width: 520px) {
+  .container {
+    max-width: 99vw;
+    padding: 2vw;
+  }
+  .card {
+    min-height: 230px;
+  }
+  .match-item img, .history-item img, .sim-item img {
+    width: 35px;
+    height: 50px;
+    margin-right: 7px;
+  }
+}

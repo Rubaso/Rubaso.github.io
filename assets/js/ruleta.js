@@ -165,8 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // devuelve el índice actual que está apuntando al puntero (según totalRotation)
-  // Nota: simplificamos los offsets y usamos la forma consistente basada en la
-  // manera en que la rueda se dibuja (startAngle = -90º).
   function currentLandedIndex(rotationDeg = totalRotation){
     const n = Math.max(1, segments.length);
     const segmentAngle = 360 / n;
@@ -177,8 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return idx;
   }
 
-  // Opción 1: permitir que el target pueda ser el mismo sector actual,
-  // pero garantizar muchas vueltas para que la animación siempre sea evidente.
+  // Remo gironda
   function spin() {
     if (spinning || segments.length === 0) return;
     spinning = true;
@@ -194,8 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetCenterFromTop = -90 + (targetIndex + 0.5) * segmentAngle;
     const normalizedTargetCenter = (targetCenterFromTop % 360 + 360) % 360;
 
-    // aumentar vueltas para evitar giros mínimos (ahora 8..12 vueltas)
-    const extraTurns = Math.floor(Math.random()*5) + 8; // 8..12
+    // aumentar vueltas para evitar giros mínimos
+    const extraTurns = Math.floor(Math.random()*5) + 8; 
     const maxOffset = Math.max(0, segmentAngle * 0.15);
     const randomOffset = (Math.random() * (maxOffset*2)) - maxOffset;
 
