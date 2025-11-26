@@ -4,3 +4,49 @@ title: "Tinder de pelis"
 permalink: /tinderpelis/
 ---
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tinder de Películas</title>
+  <link rel="stylesheet" href="assets/css/tinderpelis.css">
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Tinder de Películas</h1>
+
+    <div class="filter-panel">
+      <label for="genre-select">Género:</label>
+      <select id="genre-select">
+        <option value="all">Todos</option>
+      </select>
+      <label for="year-from">Año desde:</label>
+      <select id="year-from"></select>
+      <label for="year-to">Año hasta:</label>
+      <select id="year-to"></select>
+      <button id="apply-filter" class="btn apply">Buscar</button>
+    </div>
+
+    <div id="movie-card" class="card">
+      <div id="loading">Cargando película...</div>
+    </div>
+    <div class="actions">
+      <button id="no-btn" class="btn no">No quiero verla</button>
+      <button id="yes-btn" class="btn yes">Sí quiero verla</button>
+    </div>
+    <div class="nav-panel">
+      <button id="view-matches" class="btn matches">Ver coincidencias</button>
+      <button id="view-history" class="btn history">Ver historial</button>
+      <button id="clear-btn" class="btn clear">Borrar todo</button>
+      <button id="view-stats" class="btn stats">Ver estadísticas</button>
+    </div>
+    <div id="matches-list" class="matches-list"></div>
+    <div id="history-list" class="history-list"></div>
+    <div id="stats-panel"></div>
+  </div>
+  <script src="assets/js/tinderpelis.js"></script>
+</body>
+</html>
