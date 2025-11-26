@@ -93,17 +93,31 @@ function renderYearOptions() {
   yearToSelect.value = MAX_YEAR;
 }
 
+// Barajar array Fisher–Yates
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    // Swap
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
 // --- Pelis según filtro ---
 async function fetchMovies() {
   showLoading();
-  let url = '';
   let gParam = (genreId && genreId !== 'all') ? `&with_genres=${genreId}` : '';
   let yFromParam = yearFrom ? `&primary_release_date.gte=${yearFrom}-01-01` : '';
   let yToParam = yearTo ? `&primary_release_date.lte=${yearTo}-12-31` : '';
-  url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}${gParam}${yFromParam}${yToParam}&sort_by=popularity.desc&language=es-ES&page=1`;
+  let page = Math.floor(Math.random() * 500) + 1; // Página aleatoria entre 1 y 500
+  let url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}${gParam}${yFromParam}${yToParam}&sort_by=popularity.desc&language=es-ES&page=${page}`;
   const res = await fetch(url);
   const data = await res.json();
   movies = data.results || [];
+  movies = shuffle(movies); 
   currentIndex = 0;
   renderMovie();
 }
@@ -112,6 +126,7 @@ function renderMovie() {
   matchesListDiv.innerHTML = '';
   historyListDiv.innerHTML = '';
   statsPanel.innerHTML = '';
+
   if (currentIndex >= movies.length) {
     movieCard.innerHTML = `<div>¡No hay más películas para este filtro!</div>`;
     yesBtn.disabled = true;
@@ -121,8 +136,21 @@ function renderMovie() {
   yesBtn.disabled = false;
   noBtn.disabled = false;
   const m = movies[currentIndex];
+  let mGenres = (m.genre_ids || []).map(id => {
+    let g = genres.find(g => g.id === id);
+    return g ? g.name : '';
+  }).filter(Boolean).join(', ');
+
   movieCard.innerHTML = `
-    <img id="movie-poster" src="https://image.tmdb.org/t/p/w300${m.poster_path}" alt="Poster">
+    <div class="movie-center-row">
+      <img id="movie-poster" src="https://image.tmdb.org/t/p/w300${m.poster_path}" alt="Poster">
+      <div class="movie-side-info">
+        <div class="movie-vote-circle">
+          <span>${(m.vote_average || 0).toFixed(1)}</span>
+        </div>
+        <div class="movie-genres">${mGenres}</div>
+      </div>
+    </div>
     <div class="movie-title">${m.title}</div>
     <div class="movie-overview">${m.overview ? m.overview.slice(0,120)+"..." : ""}</div>
   `;
@@ -144,15 +172,14 @@ async function pickMovie(status) {
 
 // --- Guardar/Actualizar elección en Firestore ---
 async function saveChoice(movieId, status, nota, movieObj) {
-  await db.collection('choices').doc(ROOM + "_" + SESSION_ID + "_" + movieId).set({
-    user: SESSION_ID,
-    nombre: nombreUsuario,
-    room: ROOM,
-    movieId,
-    status,
-    nota,
-    tmdb: movieObj
-  });
+  await db.collection('choices').doc(ROOM+"_"+nombreUsuario+"_"+movieId).set({
+  nombre: nombreUsuario,
+  room: ROOM,
+  movieId,
+  status,
+  nota,
+  tmdb: movieObj
+});
 }
 
 // --- Ver historial ---
@@ -160,9 +187,9 @@ historyBtn.onclick = showHistory;
 
 async function getUserChoices() {
   const snapshot = await db.collection('choices')
-    .where("room", "==", ROOM)
-    .where("user", "==", SESSION_ID)
-    .get();
+  .where("room", "==", ROOM)
+  .where("nombre", "==", nombreUsuario)
+  .get();
   let res = {};
   snapshot.forEach(doc => {
     const data = doc.data();
@@ -347,20 +374,32 @@ function renderStats(choicesArr) {
 // --- Borrar todo ---
 clearBtn.onclick = async () => {
   if (!confirm("¿Seguro que quieres borrar todo tu historial? Esta acción no se puede deshacer.")) return;
-  const snapshot = await db.collection('choices')
-    .where("room", "==", ROOM)
-    .where("user", "==", SESSION_ID)
-    .get();
-  let batch = db.batch();
-  snapshot.forEach(doc => batch.delete(doc.ref));
-  await batch.commit();
-  movieChoices = {};
-  currentIndex = 0;
-  await fetchMovies();
-  matchesListDiv.innerHTML = '';
-  historyListDiv.innerHTML = '';
-  statsPanel.innerHTML = '';
-  alert("¡Historial borrado! Puedes volver a empezar.");
+  try {
+    const snapshot = await db.collection('choices')
+      .where("room", "==", ROOM)
+      .where("nombre", "==", nombreUsuario)
+      .get();
+    if (snapshot.empty) {
+      alert("No hay nada que borrar en tu historial.");
+      return;
+    }
+    let batch = db.batch();
+    let docsDeleted = 0;
+    snapshot.forEach(function(doc) {
+      batch.delete(doc.ref);
+      docsDeleted++;
+    });
+    await batch.commit();
+    movieChoices = {};
+    currentIndex = 0;
+    await fetchMovies();
+    matchesListDiv.innerHTML = '';
+    historyListDiv.innerHTML = '';
+    statsPanel.innerHTML = '';
+    alert("¡Historial borrado! Puedes volver a empezar.");
+  } catch(e) {
+    alert("Error al borrar historial: " + e.message);
+  }
 };
 
 // --- FILTRO ---
