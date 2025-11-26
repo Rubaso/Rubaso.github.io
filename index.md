@@ -1,6 +1,6 @@
 ---
-layout: home
-title: YIIIIIIII
+layout: default
+title: Inicio
 ---
 
 <link rel="stylesheet" href="{{ "/assets/style.css" | relative_url }}">
@@ -13,8 +13,8 @@ title: YIIIIIIII
   </a>
 
   <a class="card" href="/TinderPelis/" aria-label="Abrir tinder de pelis">
-    <h2>Notas rápidas</h2>
-    <p>Para apuntar ideas</p>
+    <h2>Tinder de pelis</h2>
+    <p>Para elegir pelis</p>
   </a>
 
   <a class="card" href="/tools/" aria-label="Ver recursos útiles">

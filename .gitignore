@@ -1,0 +1,12 @@
+# Node
+node_modules/
+dist/
+
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+
+# System
+.DS_Store
+Thumbs.db
