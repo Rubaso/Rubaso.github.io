@@ -38,7 +38,7 @@ let yearTo = null;
 let movies = [];
 let currentIndex = 0;
 let movieChoices = {};
-const MIN_YEAR = 1960;
+const MIN_YEAR = 1990;
 const MAX_YEAR = new Date().getFullYear();
 
 const movieCard = document.getElementById('movie-card');
@@ -141,19 +141,44 @@ function renderMovie() {
     return g ? g.name : '';
   }).filter(Boolean).join(', ');
 
-  movieCard.innerHTML = `
-    <div class="movie-center-row">
-      <img id="movie-poster" src="https://image.tmdb.org/t/p/w300${m.poster_path}" alt="Poster">
-      <div class="movie-side-info">
-        <div class="movie-vote-circle">
-          <span>${(m.vote_average || 0).toFixed(1)}</span>
+  if (!m.runtime) {
+    fetch(`https://api.themoviedb.org/3/movie/${m.id}?api_key=${TMDB_API_KEY}&language=es-ES`)
+      .then(res => res.json())
+      .then(details => {
+        m.runtime = details.runtime;
+        m.release_date = details.release_date || m.release_date;
+        showMovieCard(m, mGenres);
+      });
+  } else {
+    showMovieCard(m, mGenres);
+  }
+
+  function showMovieCard(movie, genresStr) {
+    // Extraer año de "release_date"
+    let year = "";
+    if (movie.release_date && movie.release_date.length >= 4) {
+      year = new Date(movie.release_date).getFullYear();
+    }
+    movieCard.innerHTML = `
+      <div class="movie-center-row">
+        <img id="movie-poster" src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="Poster">
+        <div class="movie-side-info">
+          <div class="movie-vote-circle">
+            <span>${(movie.vote_average || 0).toFixed(1)}</span>
+          </div>
+          <div class="movie-genres">${genresStr}</div>
+          <div class="movie-runtime">
+            ${movie.runtime ? `${movie.runtime} min` : ""}
+          </div>
+          <div class="movie-year">
+            ${year ? `Año: ${year}` : ""}
+          </div>
         </div>
-        <div class="movie-genres">${mGenres}</div>
       </div>
-    </div>
-    <div class="movie-title">${m.title}</div>
-    <div class="movie-overview">${m.overview ? m.overview.slice(0,120)+"..." : ""}</div>
-  `;
+      <div class="movie-title">${movie.title}</div>
+      <div class="movie-overview">${(movie.overview && movie.overview.trim()) ? movie.overview.slice(0,120)+"..." : "Sin sinopsis disponible."}</div>
+    `;
+  }
 }
 
 // --- Elección (Sí/No) ---

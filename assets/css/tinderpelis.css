@@ -288,7 +288,7 @@ h1 {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: #fde39a;
+  background: #fd9a9a;
   color: #352000;
   font-weight: bold;
   font-size: 1.35em;
@@ -306,4 +306,17 @@ h1 {
   max-width: 130px;
   word-break: break-word;
   text-align: center;
+}
+
+.movie-runtime {
+  font-size: 1em;
+  color: #325074;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.movie-year {
+  font-size: 0.97em;
+  color: #41668e;
+  margin-bottom: 7px;
 }
