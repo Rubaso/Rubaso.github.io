@@ -1,3 +1,5 @@
+@import "{{ site.theme }}";
+
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: #f1f3f6;

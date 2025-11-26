@@ -3,8 +3,8 @@ layout: home
 title: YIIIIIIII
 ---
 
-<link rel="stylesheet" href="/assets/style.css">
-<link rel="stylesheet" href="/assets/css/card-smal.css">
+<link rel="stylesheet" href="{{ "/assets/style.css" | relative_url }}">
+<link rel="stylesheet" href="{{ "/assets/css/card-smal.css" | relative_url }}">
 
 <div class="card-grid">
   <a class="card" href="/ruleta/" aria-label="Abrir ruleta">
