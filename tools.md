@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Recursos y herramientas
 permalink: /tools/
 ---
